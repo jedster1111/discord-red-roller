@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, InteractionContextType, SlashCommandBuilder } from "discord.js";
 import { Command, CommandConfig, CommandHandler } from "./types.js";
 import { rollD10 } from "./utils/roll.js";
 
@@ -7,6 +7,8 @@ const config: CommandConfig = {};
 const commandJson = new SlashCommandBuilder()
   .setName("roll-d10")
   .setDescription("Rolls a d10")
+  .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
+  .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
   .addIntegerOption((o) =>
     o.setName("modifier").setDescription("What to add or subtract to your roll").setRequired(false),
   )

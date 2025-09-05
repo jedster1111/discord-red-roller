@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, InteractionContextType, SlashCommandBuilder } from "discord.js";
 import { Command, CommandConfig, CommandHandler } from "./types.js";
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 
@@ -11,6 +11,8 @@ const commandJson = new SlashCommandBuilder()
     o.setName("roll-command").setDescription("The roll to make, see /roll-help for documentation").setRequired(true),
   )
   .addStringOption((o) => o.setName("description").setDescription("Add a description to your roll").setRequired(false))
+  .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
+  .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
   .toJSON();
 
 const handler: CommandHandler = async (interaction) => {

@@ -25,7 +25,7 @@ discordClient.once(Events.ClientReady, (readyClient) => {
   }
 });
 
-console.log("Starting discord bot!");
+console.log("Starting Red Roller bot!");
 discordClient.login(discordBotToken);
 
 discordClient.on(Events.InteractionCreate, async (interaction) => {

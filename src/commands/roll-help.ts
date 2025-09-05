@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { ApplicationIntegrationType, InteractionContextType, SlashCommandBuilder } from "discord.js";
 import { Command, CommandConfig, CommandHandler } from "./types.js";
 
 const config: CommandConfig = {};
@@ -6,6 +6,8 @@ const config: CommandConfig = {};
 const commandJson = new SlashCommandBuilder()
   .setName("roll-help")
   .setDescription("Documentation for the help command")
+  .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
+  .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
   .toJSON();
 
 const handler: CommandHandler = async (interaction) => {

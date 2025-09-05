@@ -28,7 +28,7 @@ jobs:
         with:
           switches: -a --delete
           path: out/
-          remote_path: /etc/discord-roller-bot/
+          remote_path: /etc/discord-red-roller/
           remote_host: 159.223.213.54
           remote_user: root
           remote_key: ${{ secrets.DEPLOY_KEY }}

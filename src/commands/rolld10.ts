@@ -31,7 +31,7 @@ const handler: CommandHandler = async (interaction) => {
   if (implodeRoll) explanation += ` - **${implodeRoll}**`;
   explanation += ` + ${modifier}`;
 
-  await interaction.reply(`${rollDescription}: __**${result}**__ | *(${explanation})*`);
+  await interaction.reply(`${rollDescription}: __**${result}**__ | *(${explanation})*!`);
 };
 
 const command: Command = {

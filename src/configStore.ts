@@ -1,11 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import os from "node:os";
 
-const homeDir = os.homedir();
-const storeDir = "twitch-alert";
-const storeName = "store.json";
-const storePath = path.join(homeDir, storeDir, storeName);
+import { envVars } from "./loadEnvVars.js";
 
 /**
  * {
@@ -24,6 +20,8 @@ export type SavedData = {
   };
 };
 
+const { storePath } = envVars;
+
 export async function readConfig(): Promise<SavedData> {
   try {
     const jsonString = await fs.readFile(storePath, "utf8");
@@ -38,7 +36,7 @@ export async function readConfig(): Promise<SavedData> {
 
 export async function writeConfig(obj: SavedData) {
   try {
-    await fs.mkdir(path.join(homeDir, storeDir), { recursive: true });
+    await fs.mkdir(path.dirname(storePath), { recursive: true });
     const jsonString = JSON.stringify(obj, null, 4);
     await fs.writeFile(storePath, jsonString);
     console.log("Wrote json:", jsonString);

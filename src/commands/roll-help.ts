@@ -1,0 +1,22 @@
+import { SlashCommandBuilder } from "discord.js";
+import { Command, CommandConfig, CommandHandler } from "./types.js";
+
+const config: CommandConfig = {};
+
+const commandJson = new SlashCommandBuilder()
+  .setName("roll-help")
+  .setDescription("Documentation for the help command")
+  .toJSON();
+
+const handler: CommandHandler = async (interaction) => {
+  await interaction.reply("See https://dice-roller.github.io/documentation/guide/notation/");
+};
+
+const command: Command = {
+  config,
+  commandJson,
+  handler,
+  stores: {},
+};
+
+export default command;

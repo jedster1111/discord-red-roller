@@ -24,7 +24,7 @@ const handler: CommandHandler = async (interaction) => {
 
   const result = initialRoll + explodeRoll - implodeRoll + modifier;
 
-  const stringifiedInitialRoll = initialRoll === 10 ? `__${initialRoll}__` : initialRoll;
+  const stringifiedInitialRoll = initialRoll === 10 || initialRoll === 1 ? `__${initialRoll}__` : initialRoll;
 
   let explanation = `**${stringifiedInitialRoll}**`;
   if (explodeRoll) explanation += ` + **${explodeRoll}**`;

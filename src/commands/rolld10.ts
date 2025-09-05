@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { Command, CommandConfig, CommandHandler } from "./types.js";
+import { rollD10 } from "./utils/roll.js";
 
 const config: CommandConfig = {};
 
@@ -23,16 +24,15 @@ const handler: CommandHandler = async (interaction) => {
 
   const result = initialRoll + explodeRoll - implodeRoll + modifier;
 
-  let explanation = `**${initialRoll}**`;
+  const stringifiedInitialRoll = initialRoll === 10 ? `__${initialRoll}__` : initialRoll;
+
+  let explanation = `**${stringifiedInitialRoll}**`;
   if (explodeRoll) explanation += ` + **${explodeRoll}**`;
   if (implodeRoll) explanation += ` - **${implodeRoll}**`;
   explanation += ` + ${modifier}`;
 
   await interaction.reply(`${rollDescription}: __**${result}**__ | *(${explanation})*`);
 };
-
-const randomInt = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1)) + min;
-const rollD10 = () => randomInt(1, 10);
 
 const command: Command = {
   config,

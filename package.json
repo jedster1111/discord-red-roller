@@ -1,0 +1,36 @@
+{
+  "name": "discord-red-roller",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.6",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.42.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.22.1"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node --env-file=.env ./dist/index.js",
+    "start:dev": "tsc && NODE_OPTIONS=\"--loader ts-node/esm\" node --env-file=.env ./src/index.ts",
+    "ci:build": "npm run build && mkdir -p out && cp -r dist ./out/dist && cp package*.json out && cp .env out && cd out && npm install --production",
+    "deploy-discord-commands": "tsc && NODE_OPTIONS=\"--loader ts-node/esm\" node --env-file=.env ./src/deployCommands.ts",
+    "prettier": "prettier . --write",
+    "prettier:check": "prettier . --check",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}

@@ -1,0 +1,5 @@
+[Path]
+PathModified=/etc/discord-red-roller
+
+[Install]
+WantedBy=multi-user.target

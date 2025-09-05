@@ -1,0 +1,13 @@
+[Unit]
+Description=discord-red-roller
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/etc/discord-red-roller
+ExecStart=/root/.nvm/versions/node/v20.18.0/bin/node --env-file=/etc/discord-red-roller/.env /etc/discord-red-roller/dist/index.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

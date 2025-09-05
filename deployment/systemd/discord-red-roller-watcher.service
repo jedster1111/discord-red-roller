@@ -1,0 +1,10 @@
+[Unit]
+Description=discord-red-roller restarter
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart discord-red-roller.service
+
+[Install]
+WantedBy=multi-user.target

@@ -27,7 +27,7 @@ const handler: CommandHandler = async (interaction) => {
 
   const explanation = stringifiedResults.join(" + ");
 
-  await interaction.reply(`${rollDescription}: __**${result}**__ | *(${explanation})*!`);
+  await interaction.reply(`${rollDescription}: __**${result}**__ | *(${explanation})*`);
 };
 
 const sum = (a: number, b: number): number => a + b;

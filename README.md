@@ -1,5 +1,17 @@
 # discord-red-roller
 
+A simple discord bot to cover common Cyberpunk Red dice rolling needs.
+
+- `/roll-d10` Roll a d10 with a modifier
+- `/roll-d6` Roll multiple d6 dice
+- `/roll` Make any roll using [the notation outlined here](https://dice-roller.github.io/documentation/guide/notation/)
+
+## Install to discord
+
+Visit the following link: https://discord.com/oauth2/authorize?client_id=1413609337057710170
+
+You will have the option to install the app to either a specific server, or to add it to your list of apps, enabling you to use the app anywhere.
+
 ## Run locally
 
 ### Ensure env vars are set correctly

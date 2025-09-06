@@ -9,7 +9,9 @@ const commandJson = new SlashCommandBuilder()
   .setDescription("Rolls nd6 dice")
   .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
   .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
-  .addIntegerOption((o) => o.setName("how-many-d6").setDescription("How many d6 to roll").setRequired(false))
+  .addIntegerOption((o) =>
+    o.setName("how-many-d6").setDescription("How many d6 to roll").setMaxValue(100).setMinValue(1).setRequired(false),
+  )
   .addStringOption((o) => o.setName("description").setDescription("Add a description to your roll").setRequired(false))
   .toJSON();
 

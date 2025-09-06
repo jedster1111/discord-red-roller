@@ -10,7 +10,12 @@ const commandJson = new SlashCommandBuilder()
   .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
   .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
   .addIntegerOption((o) =>
-    o.setName("modifier").setDescription("What to add or subtract to your roll").setRequired(false),
+    o
+      .setName("modifier")
+      .setDescription("What to add or subtract to your roll")
+      .setMaxValue(1000)
+      .setMinValue(-1000)
+      .setRequired(false),
   )
   .addStringOption((o) => o.setName("description").setDescription("Add a description to your roll").setRequired(false))
   .toJSON();

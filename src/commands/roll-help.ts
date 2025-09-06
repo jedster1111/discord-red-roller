@@ -5,7 +5,7 @@ const config: CommandConfig = {};
 
 const commandJson = new SlashCommandBuilder()
   .setName("roll-help")
-  .setDescription("Documentation for the help command")
+  .setDescription("Documentation for the roll command")
   .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
   .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
   .toJSON();

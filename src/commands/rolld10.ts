@@ -15,13 +15,13 @@ const commandJson = new SlashCommandBuilder()
       .setDescription("What to add or subtract to your roll")
       .setMaxValue(1000)
       .setMinValue(-1000)
-      .setRequired(false),
+      .setRequired(true),
   )
   .addStringOption((o) => o.setName("description").setDescription("Add a description to your roll").setRequired(false))
   .toJSON();
 
 const handler: CommandHandler = async (interaction) => {
-  const modifier = interaction.options.getInteger("modifier", false) || 0;
+  const modifier = interaction.options.getInteger("modifier", true);
   const rollDescription = interaction.options.getString("description", false) || "Result";
 
   const initialRoll = rollD10();

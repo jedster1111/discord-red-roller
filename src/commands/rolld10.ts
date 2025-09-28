@@ -17,17 +17,24 @@ const commandJson = new SlashCommandBuilder()
       .setMinValue(-1000)
       .setRequired(true),
   )
+  .addBooleanOption((o) =>
+    o
+      .setName("can-explode")
+      .setDescription("If enabled, a roll of 10 will explode and a roll of 1 will implode (defaults to enabled)")
+      .setRequired(false),
+  )
   .addStringOption((o) => o.setName("description").setDescription("Add a description to your roll").setRequired(false))
   .toJSON();
 
 const handler: CommandHandler = async (interaction) => {
   const modifier = interaction.options.getInteger("modifier", true);
   const rollDescription = interaction.options.getString("description", false) || "Result";
+  const canExplode = interaction.options.getBoolean("can-explode", false) ?? true;
 
   const initialRoll = rollD10();
 
-  const explodeRoll = initialRoll === 10 ? rollD10() : 0;
-  const implodeRoll = initialRoll === 1 ? rollD10() : 0;
+  const explodeRoll = canExplode && initialRoll === 10 ? rollD10() : 0;
+  const implodeRoll = canExplode && initialRoll === 1 ? rollD10() : 0;
 
   const result = initialRoll + explodeRoll - implodeRoll + modifier;
 

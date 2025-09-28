@@ -12,7 +12,7 @@ const commandJson = new SlashCommandBuilder()
   .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
   .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
   .addIntegerOption((o) =>
-    o.setName("how-many-d6").setDescription("How many d6 to roll").setMaxValue(50).setMinValue(1).setRequired(true),
+    o.setName("how-many-d6").setDescription("How many d6 to roll").setMaxValue(50).setMinValue(1).setRequired(false),
   )
   .addStringOption((s) =>
     s
@@ -24,7 +24,7 @@ const commandJson = new SlashCommandBuilder()
   .toJSON();
 
 const handler: CommandHandler = async (interaction) => {
-  const numberDiceToRoll = interaction.options.getInteger("how-many-d6", true);
+  const numberDiceToRoll = interaction.options.getInteger("how-many-d6", false) || 1;
   const modifier = interaction.options.getString("modifier", false);
   const rollDescription = interaction.options.getString("description", false) || "Result";
 

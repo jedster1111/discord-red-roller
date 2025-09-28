@@ -1,6 +1,7 @@
 import { ApplicationIntegrationType, InteractionContextType, SlashCommandBuilder } from "discord.js";
 import { Command, CommandConfig, CommandHandler } from "./types.js";
 import { rollD10 } from "./utils/roll.js";
+import { parseModifier } from "./utils/modifier.js";
 
 const config: CommandConfig = {};
 
@@ -9,13 +10,11 @@ const commandJson = new SlashCommandBuilder()
   .setDescription("Rolls a d10")
   .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
   .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
-  .addIntegerOption((o) =>
-    o
+  .addStringOption((s) =>
+    s
       .setName("modifier")
-      .setDescription("What to add or subtract to your roll")
-      .setMaxValue(1000)
-      .setMinValue(-1000)
-      .setRequired(true),
+      .setDescription("What to add or subtract to your roll, e.g. '15' or '15 + 2 - 3'")
+      .setRequired(false),
   )
   .addBooleanOption((o) =>
     o
@@ -33,29 +32,38 @@ const commandJson = new SlashCommandBuilder()
   .toJSON();
 
 const handler: CommandHandler = async (interaction) => {
-  const modifier = interaction.options.getInteger("modifier", true);
+  const modifier = interaction.options.getString("modifier", false);
   const rollDescription = interaction.options.getString("description", false) || "Result";
   const canExplode = interaction.options.getBoolean("can-explode", false) ?? true;
   const canImplode = interaction.options.getBoolean("can-implode", false) ?? true;
+
+  const parsedModifier = parseModifier(modifier);
+  if (!parsedModifier.ok) {
+    await interaction.reply(
+      `Failed to parse modifier: \`${modifier}\`, please double check your syntax.\nOnly adding and subtracting digits is allowed (i.e. \`1 + 2 - 3\`)`,
+    );
+    return;
+  }
 
   const initialRoll = rollD10();
 
   const explodeRoll = canExplode && initialRoll === 10 ? rollD10() : 0;
   const implodeRoll = canImplode && initialRoll === 1 ? rollD10() : 0;
 
-  const result = initialRoll + explodeRoll - implodeRoll + modifier;
+  const result = initialRoll + explodeRoll - implodeRoll + parsedModifier.value.total;
 
   const stringifiedInitialRoll = initialRoll === 10 || initialRoll === 1 ? `__${initialRoll}__` : initialRoll;
 
   let explanation = `**${stringifiedInitialRoll}**`;
   if (explodeRoll) explanation += ` + **${explodeRoll}**`;
   if (implodeRoll) explanation += ` - **${implodeRoll}**`;
-  if (modifier) {
-    if (modifier > 0) explanation += ` + ${modifier}`;
-    if (modifier < 0) explanation += ` - ${-1 * modifier}`;
+  explanation = `[${explanation}]`;
+
+  if (parsedModifier.value.modifiers.length > 0) {
+    explanation += parsedModifier.value.stringifiedModifiers;
   }
 
-  await interaction.reply(`${rollDescription}: __**${result}**__ | *(${explanation})*`);
+  await interaction.reply(`${rollDescription}: __**${result}**__ | *${explanation}*`);
 };
 
 const command: Command = {
